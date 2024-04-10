@@ -2,45 +2,42 @@
 
 /**
  * insertion_sort_list - Sorts a doubly linked list of integers
- * in ascending order using the Insertion sort algorithm.
- * @list: Pointer to a pointer to the head of the list
+ * in ascending order using the Insertion sort algorithm
+ *
+ * @list: Double pointer to the head of the linked list
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *current;
-    listint_t *insertion_prev_point;
-     listint_t *insertion_next_point;
-    listint_t *key_node;
-
-    if (!list)
+    if (list == NULL || *list == NULL || (*list)->next == NULL)
         return;
 
-    for (current = *list; current; current = current->next)
+    listint_t *current = (*list)->next;
+
+    while (current != NULL)
     {
-        insertion_prev_point = current->prev;
-        insertion_next_point = current->next;
+        listint_t *key_node = current;
+        listint_t *insertion_point = current->prev;
 
-       while (insertion_next_point && (insertion_next_point->n < current->n))
+        while (insertion_point != NULL && insertion_point->n > key_node->n)
         {
-            key_node = current->next;
-			insertion_next_point = key_node->next;
-			key_node->prev = insertion_prev_point;
+            if (insertion_point->prev != NULL)
+                insertion_point->prev->next = key_node;
+            if (key_node->next != NULL)
+                key_node->next->prev = insertion_point;
 
-            if (insertion_prev_point)
-                insertion_prev_point->next = key_node;
-            
-             if (insertion_next_point)
-                insertion_prev_point->prev = key_node;
+            insertion_point->next = key_node->next;
+            key_node->prev = insertion_point->prev;
+            key_node->next = insertion_point;
+            insertion_point->prev = key_node;
 
-            insertion_prev_point = key_node;
-            insertion_next_point =  current;
-
-            if (key_node->prev)
-                current = key_node->prev;
-             else
+            if (key_node->prev == NULL)
                 *list = key_node;
+
+            insertion_point = key_node->prev;
 
             print_list(*list);
         }
+
+        current = current->next;
     }
 }
