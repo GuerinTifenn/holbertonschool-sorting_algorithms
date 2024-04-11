@@ -8,36 +8,41 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-    if (list == NULL || *list == NULL || (*list)->next == NULL)
-        return;
+listint_t *current;
+listint_t *key_node;
+listint_t *insertion_point;
 
-    listint_t *current = (*list)->next;
 
-    while (current != NULL)
-    {
-        listint_t *key_node = current;
-        listint_t *insertion_point = current->prev;
+if (list == NULL || *list == NULL || (*list)->next == NULL)
+return;
 
-        while (insertion_point != NULL && insertion_point->n > key_node->n)
-        {
-            if (insertion_point->prev != NULL)
-                insertion_point->prev->next = key_node;
-            if (key_node->next != NULL)
-                key_node->next->prev = insertion_point;
+current = (*list)->next;
 
-            insertion_point->next = key_node->next;
-            key_node->prev = insertion_point->prev;
-            key_node->next = insertion_point;
-            insertion_point->prev = key_node;
+while (current != NULL)
+{
+key_node = current;
+insertion_point = current->prev;
 
-            if (key_node->prev == NULL)
-                *list = key_node;
+while (insertion_point != NULL && insertion_point->n > key_node->n)
+{
+if (insertion_point->prev != NULL)
+insertion_point->prev->next = key_node;
+if (key_node->next != NULL)
+key_node->next->prev = insertion_point;
 
-            insertion_point = key_node->prev;
+insertion_point->next = key_node->next;
+key_node->prev = insertion_point->prev;
+key_node->next = insertion_point;
+insertion_point->prev = key_node;
 
-            print_list(*list);
-        }
+if (key_node->prev == NULL)
+*list = key_node;
 
-        current = current->next;
-    }
+insertion_point = key_node->prev;
+
+print_list(*list);
+}
+
+current = current->next;
+}
 }
