@@ -67,6 +67,3 @@ void quick_sort(int *array, size_t size)
 	if (array && size)
 		divide(array, size, 0, size - 1);
 }
-
-
-
